@@ -1,17 +1,44 @@
-// A Narcissistic Number is a number which is the sum of its own digits, each raised to the power of the number of digits in a given base. In this Kata, we will restrict ourselves to decimal (base 10).
+// A pangram is a sentence that contains every single letter of the alphabet at least once. For example, the sentence "The quick brown fox jumps over the lazy dog" is a pangram, because it uses the letters A-Z at least once (case is irrelevant).
 
-// For example, take 153 (3 digits):
+// Given a string, detect whether or not it is a pangram. Return True if it is, False if not. Ignore numbers and punctuation.
 
-//     1^3 + 5^3 + 3^3 = 1 + 125 + 27 = 153
+function isPangram(string) {
+  const alphabet = [
+    `a`,
+    `b`,
+    `c`,
+    `d`,
+    `e`,
+    `f`,
+    `g`,
+    `h`,
+    `i`,
+    `j`,
+    `k`,
+    `l`,
+    `m`,
+    `n`,
+    `o`,
+    `p`,
+    `q`,
+    `r`,
+    `s`,
+    `t`,
+    `u`,
+    `v`,
+    `w`,
+    `x`,
+    `y`,
+    `z`
+  ];
 
-function narcissistic(value) {
-  const valueArr = (value + ``).split('');
-  valueArr.forEach((item, index) => {
-    valueArr[index] = Math.pow(+item, valueArr.length);
-  })  
-  const result = valueArr.reduce((sum, current) => {
-    return sum + current;
+  let stringArr = string.split(``);
+  stringArr.forEach((element, index) => {
+    element = element.toLowerCase();
+    stringArr[index] = element;
   });
-  console.log(result);
-  return value === result;
+  const strinSet = new Set(stringArr.filter((letter) => {
+    return alphabet.indexOf(letter) !== -1;
+  }));
+  return (strinSet.size === alphabet.length);
 }
