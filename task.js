@@ -1,44 +1,26 @@
-// A pangram is a sentence that contains every single letter of the alphabet at least once. For example, the sentence "The quick brown fox jumps over the lazy dog" is a pangram, because it uses the letters A-Z at least once (case is irrelevant).
+// You probably know the "like" system from Facebook and other pages. People can "like" blog posts, pictures or other items. We want to create the text that should be displayed next to such an item.
 
-// Given a string, detect whether or not it is a pangram. Return True if it is, False if not. Ignore numbers and punctuation.
+// Implement a function likes :: [String] -> String, which must take in input array, containing the names of people who like an item. It must return the display text as shown in the examples:
 
-function isPangram(string) {
-  const alphabet = [
-    `a`,
-    `b`,
-    `c`,
-    `d`,
-    `e`,
-    `f`,
-    `g`,
-    `h`,
-    `i`,
-    `j`,
-    `k`,
-    `l`,
-    `m`,
-    `n`,
-    `o`,
-    `p`,
-    `q`,
-    `r`,
-    `s`,
-    `t`,
-    `u`,
-    `v`,
-    `w`,
-    `x`,
-    `y`,
-    `z`
-  ];
+// likes [] // must be "no one likes this"
+// likes ["Peter"] // must be "Peter likes this"
+// likes ["Jacob", "Alex"] // must be "Jacob and Alex like this"
+// likes ["Max", "John", "Mark"] // must be "Max, John and Mark like this"
+// likes ["Alex", "Jacob", "Mark", "Max"] // must be "Alex, Jacob and 2 others like this"
 
-  let stringArr = string.split(``);
-  stringArr.forEach((element, index) => {
-    element = element.toLowerCase();
-    stringArr[index] = element;
-  });
-  const strinSet = new Set(stringArr.filter((letter) => {
-    return alphabet.indexOf(letter) !== -1;
-  }));
-  return (strinSet.size === alphabet.length);
+function likes(names) {
+  const likesNumber = names.length;
+  if (likesNumber === 0) {
+    return `no one likes this`;
+  }
+  if (likesNumber === 1) {
+    return `${names[0]} likes this`;
+  }
+  if (likesNumber === 2) {
+    return `${names[0]} and ${names[1]} like this`;
+  }
+  if (likesNumber === 3) {
+    return `${names[0]}, ${names[1]} and ${names[2]} like this`;
+  }
+  return `${names[0]}, ${names[1]} and ${likesNumber - 2} others like this`;
 }
