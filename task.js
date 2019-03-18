@@ -1,28 +1,34 @@
-// Sheldon, Leonard, Penny, Rajesh and Howard are in the queue for a "Double Cola" drink vending machine; there are no other people in the queue. The first one in the queue (Sheldon) buys a can, drinks it and doubles! The resulting two Sheldons go to the end of the queue. Then the next in the queue (Leonard) buys a can, drinks it and gets to the end of the queue as two Leonards, and so on.
+// How can you tell an extrovert from an introvert at NSA? Va gur ryringbef, gur rkgebireg ybbxf ng gur BGURE thl'f fubrf.
 
-// For example, Penny drinks the third can of cola and the queue will look like this:
+// I found this joke on USENET, but the punchline is scrambled. Maybe you can decipher it? According to Wikipedia, ROT13 (http://en.wikipedia.org/wiki/ROT13) is frequently used to obfuscate jokes on USENET.
 
-// Rajesh, Howard, Sheldon, Sheldon, Leonard, Leonard, Penny, Penny
-// Write a program that will return the name of the person who will drink the n-th cola.
+// Hint: For this task you're only supposed to substitue characters. Not spaces, punctuation, numbers etc. Test examples:
 
-// Input
-// The input data consist of an array which contains at least 1 name, and single integer n.
+// rot13("EBG13 rknzcyr.") == "ROT13 example.";
+// rot13("This is my first ROT13 excercise!" == "Guvf vf zl svefg EBG13 rkprepvfr!"
 
-// 1  ≤  n  ≤  10000000000
-// Output / Examples
-// Return the single line — the name of the person who drinks the n-th can of cola. The cans are numbered starting from 1.
+function rot13(str) {
+  const alphabetSmall = `abcdefghijklmnopqrstuvwxyz`.split(``);
+  const alphabetBig = `ABCDEFGHIJKLMNOPQRSTUVWXYZ`.split(``);
+  str = str.split(``);
+  const rotate = (letter, alphabet) => {
+    let index = alphabet.indexOf(letter);
+    let newLetter = letter;
+    if (index !== -1) {
+      index += 13;
+      if (index >= alphabet.length) {
+        index -= 26;
+      }
+      newLetter = alphabet[index];
+    }
+    
+    return newLetter;
+  };
 
-// whoIsNext(["Sheldon", "Leonard", "Penny", "Rajesh", "Howard"], 1) == "Sheldon"
-// whoIsNext(["Sheldon", "Leonard", "Penny", "Rajesh", "Howard"], 52) == "Penny"
-// whoIsNext(["Sheldon", "Leonard", "Penny", "Rajesh", "Howard"], 7230702951) == "Leonard"
-
-function whoIsNext(names, r) {
-  let name;
-  for (let i = 0; i < r; i++) {
-    name = names[0];
-    names.push(name);
-    names.push(name);
-    names.shift();
-  }
-  return name;
+  return str.map((letter) => {
+    let newLetter = rotate(letter, alphabetSmall);
+    newLetter = rotate(newLetter, alphabetBig);
+    return newLetter;
+  })
+    .join(``);
 }
