@@ -1,34 +1,29 @@
-// How can you tell an extrovert from an introvert at NSA? Va gur ryringbef, gur rkgebireg ybbxf ng gur BGURE thl'f fubrf.
+// Take the following IPv4 address: 128.32.10.1
 
-// I found this joke on USENET, but the punchline is scrambled. Maybe you can decipher it? According to Wikipedia, ROT13 (http://en.wikipedia.org/wiki/ROT13) is frequently used to obfuscate jokes on USENET.
+// This address has 4 octets where each octet is a single byte (or 8 bits).
 
-// Hint: For this task you're only supposed to substitue characters. Not spaces, punctuation, numbers etc. Test examples:
+// 1st octet 128 has the binary representation: 10000000
+// 2nd octet 32 has the binary representation: 00100000
+// 3rd octet 10 has the binary representation: 00001010
+// 4th octet 1 has the binary representation: 00000001
+// So 128.32.10.1 == 10000000.00100000.00001010.00000001
 
-// rot13("EBG13 rknzcyr.") == "ROT13 example.";
-// rot13("This is my first ROT13 excercise!" == "Guvf vf zl svefg EBG13 rkprepvfr!"
+// Because the above IP address has 32 bits, we can represent it as the unsigned 32 bit number: 2149583361
 
-function rot13(str) {
-  const alphabetSmall = `abcdefghijklmnopqrstuvwxyz`.split(``);
-  const alphabetBig = `ABCDEFGHIJKLMNOPQRSTUVWXYZ`.split(``);
-  str = str.split(``);
-  const rotate = (letter, alphabet) => {
-    let index = alphabet.indexOf(letter);
-    let newLetter = letter;
-    if (index !== -1) {
-      index += 13;
-      if (index >= alphabet.length) {
-        index -= 26;
-      }
-      newLetter = alphabet[index];
-    }
-    
-    return newLetter;
-  };
+// Complete the function that takes an unsigned 32 bit number and returns a string representation of its IPv4 address.
 
-  return str.map((letter) => {
-    let newLetter = rotate(letter, alphabetSmall);
-    newLetter = rotate(newLetter, alphabetBig);
-    return newLetter;
-  })
-    .join(``);
+// Examples
+// 2149583361 ==> "128.32.10.1"
+// 32         ==> "0.0.0.32"
+// 0          ==> "0.0.0.0"
+
+function int32ToIp(int32) {
+  return new Array(4).fill(``)
+    .map(() => {
+      const newNumber = int32 % 256;
+      int32 = Math.floor(int32 / 256);
+      return newNumber;
+    })
+    .reverse()
+    .join(`.`);
 }
