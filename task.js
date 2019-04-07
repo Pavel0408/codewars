@@ -1,37 +1,24 @@
-function faroCount(deckSize) {
-  function isEquival(arr1, arr2) {
-    return arr1.every((elem, index) => {
-      return arr1[index] === arr2[index];
-    });
-  }
+// The makeLooper() function (make_looper in Python) takes a string (of non-zero length) as an argument. It returns a function. The function it returns will return successive characters of the string on successive invocations. It will start back at the beginning of the string once it reaches the end.
 
-  let deckArr = new Array(deckSize).fill(``).map((elem, index) => {
-    return index + 1;
-  });
-  let count = 0;
-  let localDeckArr = deckArr.slice();
-  do {
-    debugger;
+// For example:
 
-    let firstHalf = localDeckArr.slice(0, localDeckArr.length / 2);
-    let secondHalf = deckArr.slice(deckArr.length / 2, localDeckArr.length);
-    console.log(firstHalf, secondHalf);
-    debugger;
-    localDeckArr = [];
-    for (let i = 0; i < secondHalf.length; i++) {
+// var abc = makeLooper('abc');
+// abc(); // should return 'a' on this first call
+// abc(); // should return 'b' on this second call
+// abc(); // should return 'c' on this third call
+// abc(); // should return 'a' again on this fourth call
 
-      localDeckArr.push(firstHalf[i]);
-      localDeckArr.push(secondHalf[i]);
-      console.log(localDeckArr);
+function makeLooper(str) {
+  const strArr = str.split(``);
+  let index = 0;
+
+  return function() {
+    const ch = strArr[index];
+    index++;
+    if (index >= strArr.length) {
+      index = 0;
     }
 
-    count++;
-
-    console.log(isEquival(localDeckArr, deckArr), localDeckArr);
-
-  } while (!isEquival(localDeckArr, deckArr));
-
-  return count;
+    return ch;
+  };
 }
-
-console.log(faroCount(52));
