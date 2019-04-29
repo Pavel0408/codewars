@@ -1,24 +1,61 @@
-// The makeLooper() function (make_looper in Python) takes a string (of non-zero length) as an argument. It returns a function. The function it returns will return successive characters of the string on successive invocations. It will start back at the beginning of the string once it reaches the end.
+// Write a function called sumIntervals/sum_intervals() that accepts an array of intervals, and returns the sum of all the interval lengths. Overlapping intervals should only be counted once.
+//
+//   Intervals
+// Intervals are represented by a pair of integers in the form of an array. The first value of the interval will always be less than the second value. Interval example: [1, 5] is an interval from 1 to 5. The length of this interval is 4.
+//
+// Overlapping Intervals
+// List containing overlapping intervals:
+//
+//   [
+//     [1,4],
+//     [7, 10],
+//     [3, 5]
+//   ]
+// The sum of the lengths of these intervals is 7. Since [1, 4] and [3, 5] overlap, we can treat the interval as [1, 5], which has a length of 4.
+//
+// Examples:
+//   sumIntervals( [
+//     [1,2],
+//     [6, 10],
+//     [11, 15]
+//   ] ); // => 9
+//
+// sumIntervals( [
+//   [1,4],
+//   [7, 10],
+//   [3, 5]
+// ] ); // => 7
+//
+// sumIntervals( [
+//   [1,5],
+//   [10, 20],
+//   [1, 6],
+//   [16, 19],
+//   [5, 11]
+// ] ); // => 19
 
-// For example:
+function feelInterval(arr) {
+  const newArr = [];
+  for (let i = arr[0]; i < arr[arr.length - 1]; i++) {
+    newArr.push([i, i + 1]);
+  }
 
-// var abc = makeLooper('abc');
-// abc(); // should return 'a' on this first call
-// abc(); // should return 'b' on this second call
-// abc(); // should return 'c' on this third call
-// abc(); // should return 'a' again on this fourth call
-
-function makeLooper(str) {
-  const strArr = str.split(``);
-  let index = 0;
-
-  return function() {
-    const ch = strArr[index];
-    index++;
-    if (index >= strArr.length) {
-      index = 0;
-    }
-
-    return ch;
-  };
+  return newArr;
 }
+
+
+function sumIntervals(intervals) {
+  const intervalSet = new Set();
+  const newIntervals = intervals.map(feelInterval);
+  newIntervals.forEach((it) => {
+
+    it.forEach((item) => {
+      intervalSet.add(item[0]);
+    });
+
+  });
+
+  return intervalSet.size;
+}
+
+
