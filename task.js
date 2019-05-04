@@ -1,61 +1,51 @@
-// Write a function called sumIntervals/sum_intervals() that accepts an array of intervals, and returns the sum of all the interval lengths. Overlapping intervals should only be counted once.
+// Let's pretend your company just hired your friend from college and paid you a referral bonus. Awesome! To celebrate, you're taking your team out to the terrible dive bar next door and using the referral bonus to buy, and build, the largest three-dimensional beer can pyramid you can. And then probably drink those beers, because let's pretend it's Friday too.
 //
-//   Intervals
-// Intervals are represented by a pair of integers in the form of an array. The first value of the interval will always be less than the second value. Interval example: [1, 5] is an interval from 1 to 5. The length of this interval is 4.
+//   A beer can pyramid will square the number of cans in each level - 1 can in the top level, 4 in the second, 9 in the next, 16, 25...
 //
-// Overlapping Intervals
-// List containing overlapping intervals:
+//   Complete the beeramid function to return the number of complete levels of a beer can pyramid you can make, given the parameters of:
 //
-//   [
-//     [1,4],
-//     [7, 10],
-//     [3, 5]
-//   ]
-// The sum of the lengths of these intervals is 7. Since [1, 4] and [3, 5] overlap, we can treat the interval as [1, 5], which has a length of 4.
+//   1) your referral bonus, and
 //
-// Examples:
-//   sumIntervals( [
-//     [1,2],
-//     [6, 10],
-//     [11, 15]
-//   ] ); // => 9
+// 2) the price of a beer can
 //
-// sumIntervals( [
-//   [1,4],
-//   [7, 10],
-//   [3, 5]
-// ] ); // => 7
-//
-// sumIntervals( [
-//   [1,5],
-//   [10, 20],
-//   [1, 6],
-//   [16, 19],
-//   [5, 11]
-// ] ); // => 19
+// For example:
 
-function feelInterval(arr) {
-  const newArr = [];
-  for (let i = arr[0]; i < arr[arr.length - 1]; i++) {
-    newArr.push([i, i + 1]);
+// beeramid(1500, 2); // should === 12
+// beeramid(5000, 3); // should === 16
+
+// Returns number of complete beeramid levels
+let beeramid = function (bonus, price) {
+  if (bonus <= 0) {
+    return 0;
   }
 
-  return newArr;
-}
+  class LevelsGenerator {
+    constructor() {
+      this._level = 0;
+    }
 
+    get level() {
+      return this._level - 1;
+    }
+    next() {
+      this._level++;
+      const value = this._level * this._level;
 
-function sumIntervals(intervals) {
-  const intervalSet = new Set();
-  const newIntervals = intervals.map(feelInterval);
-  newIntervals.forEach((it) => {
+      return value;
+    }
+  }
+  const generator = new LevelsGenerator();
+  let beerPrice = price * generator.next();
 
-    it.forEach((item) => {
-      intervalSet.add(item[0]);
-    });
+  while (bonus - beerPrice >= 0) {
+    beerPrice += price * generator.next();
 
-  });
+  }
 
-  return intervalSet.size;
-}
+  return generator.level;
+};
 
+beeramid(9, 2);
+beeramid(10, 2);
+beeramid(21, 1.5);
 
