@@ -1,19 +1,14 @@
-// A Narcissistic Number is a number of length n in which the sum of its digits to the power of n is equal to the original number. If this seems confusing, refer to the example below.
+// Complete the method/function so that it converts dash/underscore delimited words into camel casing. The first word within the output should be capitalized only if the original word was capitalized (known as Upper Camel Case, also often referred to as Pascal case).
 
-// Ex: 153, where n = 3 (number of digits in 153)
-// 13 + 53 + 33 = 153
+// Examples
+// toCamelCase("the-stealth-warrior") // returns "theStealthWarrior"
 
-// Write a method is_narcissistic(i) (in Haskell: isNarcissistic :: Integer -> Bool) which returns whether or not i is a Narcissistic Number.
+// toCamelCase("The_Stealth_Warrior") // returns "TheStealthWarrior"
 
-function isNarcissistic(n) {
-  const numbersArr = (n + ``).split(``);
-  return (
-    numbersArr
-      .map((it) => {
-        return Math.pow(parseInt(it, 10), numbersArr.length);
-      })
-      .reduce((a, b) => {
-        return a + b;
-      }) === n
-  );
+function toCamelCase(str) {
+  const strArr = str.split(/[-_]/);
+  for (let i = 1; i < strArr.length; i++) {
+    strArr[i] = strArr[i][0].toUpperCase() + strArr[i].slice(1);
+  }
+  return strArr.join(``);
 }
