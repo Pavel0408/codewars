@@ -1,14 +1,37 @@
-// Complete the method/function so that it converts dash/underscore delimited words into camel casing. The first word within the output should be capitalized only if the original word was capitalized (known as Upper Camel Case, also often referred to as Pascal case).
+// Write a function that accepts two square matrices (N x N two dimensional arrays), and return the sum of the two. Both matrices being passed into the function will be of size N x N (square), containing only integers.
 
-// Examples
-// toCamelCase("the-stealth-warrior") // returns "theStealthWarrior"
+// How to sum two matrices:
 
-// toCamelCase("The_Stealth_Warrior") // returns "TheStealthWarrior"
+// Take each cell [n][m] from the first matrix, and add it with the same [n][m] cell from the second matrix. This will be cell [n][m] of the solution matrix.
 
-function toCamelCase(str) {
-  const strArr = str.split(/[-_]/);
-  for (let i = 1; i < strArr.length; i++) {
-    strArr[i] = strArr[i][0].toUpperCase() + strArr[i].slice(1);
+// Visualization:
+
+// |1 2 3|     |2 2 1|     |1+2 2+2 3+1|     |3 4 4|
+// |3 2 1|  +  |3 2 3|  =  |3+3 2+2 1+3|  =  |6 4 4|
+// |1 1 1|     |1 1 3|     |1+1 1+1 1+3|     |2 2 4|
+// Example
+// matrixAddition(
+//   [ [1, 2, 3],
+//     [3, 2, 1],
+//     [1, 1, 1] ],
+// //      +
+//   [ [2, 2, 1],
+//     [3, 2, 3],
+//     [1, 1, 3] ] )
+
+// // returns:
+//   [ [3, 4, 4],
+//     [6, 4, 4],
+//     [2, 2, 4] ]
+
+function matrixAddition(a, b) {
+  function addArryToArray(arr1, arr2) {
+    return arr1.map((item, i) => {
+      return item + arr2[i];
+    });
   }
-  return strArr.join(``);
+
+  return a.map((arrFirst, i) => {
+    return addArryToArray(arrFirst, b[i]);
+  });
 }
