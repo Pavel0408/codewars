@@ -1,42 +1,27 @@
-// Get the next prime number!
+// Write a function which partitions a list of items based on a given predicate.
 
-// You will get a numbern (>= 0) and your task is to find the next prime number.
+// After the partition function is run, the list should be of the form [ F, F, F, T, T, T ] where the Fs (resp. Ts) are items for which the predicate function returned false (resp. true).
 
-// Make sure to optimize your code: there will numbers tested up to about 1012
+// NOTE: the partitioning should be stable; in other words: the ordering of the Fs (resp. Ts) should be preserved relative to each other.
 
-// Examples
-// 5  ==> 7
-// 12 ==> 13
+// For convenience and utility, the partition function should return the boundary index. In other words: the index of the first T value in items.
 
-function nextPrime(n) {
-  const primes = [];
-  function isPrime(num) {
-    if (num < 2) {
-      return false;
-    }
-    if (primes.indexOf(num) !== -1) {
-      return true;
-    }
-    const max =  Math.sqrt(num);
-    for (let i = 0; i < primes.length; i++) {
-      if (num % primes[i] === 0 || primes[i] > max) {
-        return false;
-      }
-    }
+// For example:
 
-    for (let i = 2; i <= max; i++) {
-      if (num % i === 0 || i * i > num) {
-        return false;
-      }
-    }
+// var items = [1, 2, 3, 4, 5, 6];
+// function isEven(n) {return n % 2 == 0}
+// var i = partitionOn(isEven, items);
+// // items should now be [1, 3, 5, 2, 4, 6]
+// // i     should now be 3
 
-    primes.push(num);
-    return true;
-  }
+function partitionOn(pred, items) {
+  const trueArr = items.filter(pred);
+  const falseArr = items.filter((it) => !pred(it));
+  const i = falseArr.length;
+  const newArr = falseArr.concat(trueArr);
+  items.forEach((it, j) => {
+    items[j] = newArr[j];
+  });
 
-  for (let i = n + 1; ; i++) {
-    if (isPrime(i)) {
-      return i;
-    }
-  }
+  return i;
 }
