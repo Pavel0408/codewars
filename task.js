@@ -1,42 +1,44 @@
-// Some languages like Chinese, Japanese, and Thai do not have spaces between words. However, most natural languages processing tasks like part-of-speech tagging require texts that have segmented words. A simple and reasonably effective algorithm to segment a sentence into its component words is called "MaxMatch".
+// Definition
+// A number is called Automorphic number if and only if its square ends in the same digits as the number itself.
 
-// MaxMatch
-// MaxMatch starts at the first character of a sentence and tries to find the longest valid word starting from that character. If no word is found, the first character is deemed the longest "word", regardless of its validity. In order to find the rest of the words, MaxMatch is then recursively invoked on all of the remaining characters until no characters remain. A list of all of the words that were found is returned.
+// Task
+// Given a number determine if it Automorphic or not .
 
-// So for the string "happyday", "happy" is found because "happyday" is not a valid word, nor is "happyda", nor "happyd". Then, MaxMatch is called on "day", and "day" is found. The output is the list ["happy", "day"] in that order.
+// Warm-up (Highly recommended)
+// Playing With Numbers Series
+// Notes
+// The number passed to the function is positive
 
-// The Challenge
-// Write maxMatch, which takes a spaceless, lowercased String as input and returns an Array of all the words found, in the order they were found. All valid words are in the Set VALID_WORDS, which only contains around 500 English words.
+// Single-digit numbers are considered Automorphic number.
 
-// Note: This algorithm is simple and operates better on Chinese text, so accept the fact that some words will be segmented wrongly.
+// Input >> Output Examples
+// autoMorphic (25) -->> return "Automorphic"
+// Explanation:
+// 25 squared is 625 , Ends with the same number's digits which are 25 .
+// autoMorphic (13) -->> return "Not!!"
+// Explanation:
+// 13 squared is 169 , Not ending with the same number's digits which are 69 .
+// autoMorphic (76) -->> return "Automorphic"
+// Explanation:
+// 76 squared is 5776 , Ends with the same number's digits which are 76 .
+// autoMorphic (225) -->> return "Not!!"
+// Explanation:
+// 225 squared is 50625 , Not ending with the same number's digits which are 225 .
+// autoMorphic (625) -->> return "Automorphic"
+// Explanation:
+// 625 squared is 390625 , Ends with the same number's digits which are 625 .
+// autoMorphic (1) -->> return "Automorphic"
+// Explanation:
+// 1 squared is 1 , Ends with the same number's digits which are 1 .
+// autoMorphic (6) -->> return "Automorphic"
+// Explanation:
+// 6 squared is 36 , Ends with the same number's digits which are 6
 
-// Happy coding :)
-
-const VALID_WORDS = new Set([`good`, `luck`]);
-
-function maxMatch(sentence) {
-  const output = [];
-  function checkWord(word) {
-    return VALID_WORDS.has(word);
-  }
-
-  function sliceWord(word) {
-    let localWord = word;
-    while (localWord.length > 1) {
-      if (checkWord(localWord)) {
-        return localWord;
-      }
-      localWord = localWord.slice(0, -1);
-    }
-
-    return localWord;
-  }
-  while (sentence.length > 0) {
-    const nextWord = sliceWord(sentence);
-    output.push(nextWord);
-
-    sentence = sentence.slice(nextWord.length, sentence.length);
-  }
-
-  return output;
+function automorphic(n) {
+  const numberString = String(n);
+  const numberStringSqaere = String(n * n);
+  return numberStringSqaere.lastIndexOf(numberString) ===
+    numberStringSqaere.length - numberString.length
+    ? `Automorphic`
+    : `Not!!`;
 }
