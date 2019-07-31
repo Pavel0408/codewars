@@ -1,44 +1,35 @@
-// Definition
-// A number is called Automorphic number if and only if its square ends in the same digits as the number itself.
+// The maximum sum subarray problem consists in finding the maximum sum of a contiguous subsequence in an array or list of integers:
 
-// Task
-// Given a number determine if it Automorphic or not .
+// maxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4])
+// // should be 6: [4, -1, 2, 1]
+// Easy case is when the list is made up of only positive numbers and the maximum sum is the sum of the whole array. If the list is made up of only negative numbers, return 0 instead.
 
-// Warm-up (Highly recommended)
-// Playing With Numbers Series
-// Notes
-// The number passed to the function is positive
+// Empty list is considered to have zero greatest sum. Note that the empty list or array is also a valid sublist/subarray.
 
-// Single-digit numbers are considered Automorphic number.
+const maxSequence = function(arr) {
+  if (!arr.length) {
+    return 0;
+  }
+  if (arr.every(it => it < 0)) {
+    return 0;
+  }
+  if (arr.every(it => it > 0)) {
+    return arr.reduce((a, b) => {
+      return a + b;
+    });
+  }
 
-// Input >> Output Examples
-// autoMorphic (25) -->> return "Automorphic"
-// Explanation:
-// 25 squared is 625 , Ends with the same number's digits which are 25 .
-// autoMorphic (13) -->> return "Not!!"
-// Explanation:
-// 13 squared is 169 , Not ending with the same number's digits which are 69 .
-// autoMorphic (76) -->> return "Automorphic"
-// Explanation:
-// 76 squared is 5776 , Ends with the same number's digits which are 76 .
-// autoMorphic (225) -->> return "Not!!"
-// Explanation:
-// 225 squared is 50625 , Not ending with the same number's digits which are 225 .
-// autoMorphic (625) -->> return "Automorphic"
-// Explanation:
-// 625 squared is 390625 , Ends with the same number's digits which are 625 .
-// autoMorphic (1) -->> return "Automorphic"
-// Explanation:
-// 1 squared is 1 , Ends with the same number's digits which are 1 .
-// autoMorphic (6) -->> return "Automorphic"
-// Explanation:
-// 6 squared is 36 , Ends with the same number's digits which are 6
+  let result = 0;
+  let temp = 0;
+  for (let i = 0; i < arr.length; i++) {
+    temp = 0;
+    for (let j = i; j < arr.length; j++) {
+      temp += arr[j];
+      if (temp > result) {
+        result = temp;
+      }
+    }
+  }
 
-function automorphic(n) {
-  const numberString = String(n);
-  const numberStringSqaere = String(n * n);
-  return numberStringSqaere.lastIndexOf(numberString) ===
-    numberStringSqaere.length - numberString.length
-    ? `Automorphic`
-    : `Not!!`;
-}
+  return result;
+};
