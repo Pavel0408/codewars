@@ -1,35 +1,34 @@
-// The maximum sum subarray problem consists in finding the maximum sum of a contiguous subsequence in an array or list of integers:
+// Implement the method indexOf (index_of in PHP), which accepts a linked list (head) and a value, and returns the index (zero based) of the first occurrence of that value if exists, or -1 otherwise.
 
-// maxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4])
-// // should be 6: [4, -1, 2, 1]
-// Easy case is when the list is made up of only positive numbers and the maximum sum is the sum of the whole array. If the list is made up of only negative numbers, return 0 instead.
+// For example: Given the list: 1 -> 2 -> 3 -> 3, and the value 3, indexOf / index_of should return 2.
 
-// Empty list is considered to have zero greatest sum. Note that the empty list or array is also a valid sublist/subarray.
+// The linked list is defined as follows:
 
-const maxSequence = function(arr) {
-  if (!arr.length) {
-    return 0;
-  }
-  if (arr.every(it => it < 0)) {
-    return 0;
-  }
-  if (arr.every(it => it > 0)) {
-    return arr.reduce((a, b) => {
-      return a + b;
-    });
-  }
+// function Node(data, next = null) {
+//   this.data = data;
+//   this.next = next;
+// }
+// Note: the list may be null and can hold any type of value.
 
-  let result = 0;
-  let temp = 0;
-  for (let i = 0; i < arr.length; i++) {
-    temp = 0;
-    for (let j = i; j < arr.length; j++) {
-      temp += arr[j];
-      if (temp > result) {
-        result = temp;
-      }
+function indexOf(head, value) {
+  let i = 0;
+  let result = -1;
+
+  const getNext = (elem) => {
+    if (!elem) {
+      return;
     }
-  }
+    if (elem.data === value) {
+      result = i;
+      return;
+    }
+    if (elem.next) {
+      i++;
+      getNext(elem.next);
+    }
+  };
+
+  getNext(head);
 
   return result;
-};
+}
