@@ -1,34 +1,26 @@
-// Implement the method indexOf (index_of in PHP), which accepts a linked list (head) and a value, and returns the index (zero based) of the first occurrence of that value if exists, or -1 otherwise.
+// Not to brag, but I recently became the nexus of the Codewars universe! My honor and my rank were the same number. I cried a little.
 
-// For example: Given the list: 1 -> 2 -> 3 -> 3, and the value 3, indexOf / index_of should return 2.
+// Complete the method that takes a hash/object/directory/association list of users, and find the nexus: the user whose rank is the closest is equal to his honor. Return the rank of this user. For each user, the key is the rank and the value is the honor.
 
-// The linked list is defined as follows:
+// If nobody has an exact rank/honor match, return the rank of the user who comes closest. If there are several users who come closest, return the one with the lowest rank (numeric value). The hash will not necessarily contain consecutive rank numbers; return the best match from the ranks provided.
 
-// function Node(data, next = null) {
-//   this.data = data;
-//   this.next = next;
-// }
-// Note: the list may be null and can hold any type of value.
+// Example
+//          rank    honor
+// users = {  1  =>  93,
+//           10  =>  55,
+//           15  =>  30,
+//           20  =>  19,    <--- nexus
+//           23  =>  11,
+//           30  =>   2 }
 
-function indexOf(head, value) {
-  let i = 0;
-  let result = -1;
-
-  const getNext = (elem) => {
-    if (!elem) {
-      return;
+function nexus(users) {
+  const usersArr = Object.keys(users).sort((a, b) => {
+    let diff = Math.abs(a - users[a]) - Math.abs(b - users[b]);
+    if (diff === 0) {
+      diff = a - b;
     }
-    if (elem.data === value) {
-      result = i;
-      return;
-    }
-    if (elem.next) {
-      i++;
-      getNext(elem.next);
-    }
-  };
+    return diff;
+  });
 
-  getNext(head);
-
-  return result;
+  return parseInt(usersArr[0], 10);
 }
