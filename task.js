@@ -1,26 +1,81 @@
-// Not to brag, but I recently became the nexus of the Codewars universe! My honor and my rank were the same number. I cried a little.
+// Digital Cypher assigns a unique number to each letter of the alphabet:
 
-// Complete the method that takes a hash/object/directory/association list of users, and find the nexus: the user whose rank is the closest is equal to his honor. Return the rank of this user. For each user, the key is the rank and the value is the honor.
+//  a  b  c  d  e  f  g  h  i  j  k  l  m  n  o  p  q  r  s  t  u  v  w  x  y  z
+//  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26
+// In the encrypted word we write the corresponding numbers instead of the letters. For example, the word scout becomes:
 
-// If nobody has an exact rank/honor match, return the rank of the user who comes closest. If there are several users who come closest, return the one with the lowest rank (numeric value). The hash will not necessarily contain consecutive rank numbers; return the best match from the ranks provided.
+//  s  c  o  u  t
+// 19  3 15 21 20
+// Then we add to each number a digit from the key (repeated if necessary). For example if the key is 1939:
 
-// Example
-//          rank    honor
-// users = {  1  =>  93,
-//           10  =>  55,
-//           15  =>  30,
-//           20  =>  19,    <--- nexus
-//           23  =>  11,
-//           30  =>   2 }
+//    s  c  o  u  t
+//   19  3 15 21 20
+//  + 1  9  3  9  1
+//  ---------------
+//   20 12 18 30 21
 
-function nexus(users) {
-  const usersArr = Object.keys(users).sort((a, b) => {
-    let diff = Math.abs(a - users[a]) - Math.abs(b - users[b]);
-    if (diff === 0) {
-      diff = a - b;
-    }
-    return diff;
+//    m  a  s  t  e  r  p  i  e  c  e
+//   13  1 19 20  5 18 16  9  5  3  5
+// +  1  9  3  9  1  9  3  9  1  9  3
+//   --------------------------------
+//   14 10 22 29  6 27 19 18  6  12 8
+// Task
+// Write a function that accepts a message string and an array of integers code. As the result, return the key that was used to encrypt the message. The key has to be shortest of all possible keys that can be used to code the message: i.e. when the possible keys are 12 , 1212, 121212, your solution should return 12.
+
+// Input / Output:
+// The message is a string containing only lowercase letters.
+// The code is an array of positive integers.
+// The key output is a positive integer.
+// Examples
+// findTheKey("scout", [20, 12, 18, 30, 21]);  =>  1939
+// findTheKey("masterpiece", [14, 10, 22, 29, 6, 27, 19, 18, 6, 12, 8]);  =>  1939
+// findTheKey("nomoretears", [15, 17, 14, 17, 19, 7, 21, 7, 2, 20, 20]);  =>  12
+// Digital cypher series
+
+function findTheKey(message, code) {
+  const alphabet = `abcdefghijklmnopqrstuvwxyz`.split(``);
+
+  function getAlphabetIndex(letter) {
+    return alphabet.indexOf(letter) + 1;
+  }
+
+  const numbers = code.map((it, i) => {
+    return it - getAlphabetIndex(message[i]);
   });
 
-  return parseInt(usersArr[0], 10);
+  function returnArraySequence(arr) {
+    let i = 0;
+    return function () {
+      const result = arr[i];
+      i++;
+      if (i === arr.length) {
+        i = 0;
+      }
+
+      return result;
+    };
+  }
+
+  function findMinimumSequenceDigits(array) {
+    for (let i = 1; i < array.length; i++) {
+      const newArray = array.slice(0, i);
+
+      let result = true;
+      const iterator = returnArraySequence(newArray);
+      for (let j = 0; j < array.length; j++) {
+        if (array[j] !== iterator()) {
+          result = false;
+          break;
+        }
+      }
+
+      if (result === true) {
+        return newArray;
+      }
+    }
+
+    return array;
+  }
+
+  return +findMinimumSequenceDigits(numbers).join(``);
 }
